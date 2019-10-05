@@ -3,6 +3,7 @@ Login:
   * Input username/email and password, or use oauth for ???
   * Invalid info: refresh page and prompt reset password
   * Valid info: user logs in and is sent to main calendar page
+  
 Register:
   * Login page
   * If using oauth, skip info input page and log in
