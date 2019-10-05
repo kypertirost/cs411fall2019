@@ -1,0 +1,2 @@
+  * There will be a pop-up window on the upper right corner, showing the event, time for the event, how long before the event (depends on how long before the event the user might want to have the reminder,) the event location and weather (if we have a valid location)
+  * If the user is using a supported browser maybe we can also do it via the notification function of the browser (for example Chrome supports it)
