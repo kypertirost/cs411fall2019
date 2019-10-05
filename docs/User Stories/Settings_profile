@@ -1,0 +1,2 @@
+  * On the upper right corner of the screen there should be a settings button, when clicked and the user is logged in (refer to the login story), it should take the user to the settings page
+  * Where the user can change its name, timezone, password, username, other personal information. User can also edit settings for events in general, events by type, sleep schedule, alarm types, event priorities
