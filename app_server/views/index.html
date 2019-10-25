@@ -6,11 +6,29 @@
     <title></title>
 
   </head>
-  <script scr="/script"></script>
+  <script>
+  function main() {
+    console.log("submit")
+
+    var request = new XMLHttpRequest()
+    request.open('GET', 'https://api.openweathermap.org/data/2.5/weather?q=London&appid=d6b790feb395d998105df9db1b50ece2',true)
+    request.send()
+
+    var data = JSON.parse()
+
+    console.log(data)
+  }
+  </script>
   <body>
-    <div id="banner" class="page-header">
-      <h1>My page</h1>
-      <p class="lead">Welcome to my page</p>
-    </div>
+    <div id="formContainer">
+				<p id="inputFields" >
+					<span id='formTitle'>City Weather</span>
+					<br>
+					<br>
+					<input id="city" class="input" placeholder="city"></input>
+					<br>
+					<button type="submit" id="search" onclick="main()" data-loading-text="Loading...">Search</button>
+				</p>
+			</div>
   </body>
 </html>
