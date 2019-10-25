@@ -40,7 +40,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
+app.get('/script', (req,res) =>{
+  res.sendFile("./app_server/controllers/main.js")
+})
 
 
 

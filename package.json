@@ -13,6 +13,7 @@
     "http-errors": "~1.6.2",
     "jade": "^1.11.0",
     "morgan": "~1.9.0",
-    "openweather-apis": "^4.1.0"
+    "openweather-apis": "^4.1.0",
+    "xmlhttprequest": "^1.8.0"
   }
 }
