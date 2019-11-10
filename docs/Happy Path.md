@@ -1,0 +1,1 @@
+User Login -> Jump to OAuth -> Login Successful -> Jump to Main calendar -> User create events -> Event created succesfully -> Time passes until Event happens -> Reminder Window for the user created Event
