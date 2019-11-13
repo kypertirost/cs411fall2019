@@ -18,3 +18,9 @@ If not successful ask the user to either try again later or check internet conne
 
 Primary-create_event: User adds events -> Successfully added to database  
 If not successful ask the user to either try again later or check internet connection. If the user is connected to internet maybe we can implement error report function.  
+
+Secondary-Add_friends: Users search for and adds friends -> Successfully added to database  
+If not successful ask the user to either try again later or check internet connection. If the user is connected to internet maybe we can implement error report function.  
+
+Secondary-Weather_Integration: Users clicks on a event -> Display the weather forcast for the location and time of the displayed event  
+If not successful ask the user to either try again later or check internet connection. If the user is connected to internet maybe we can implement error report function.  
