@@ -4,9 +4,11 @@
 ### OAuth 2.0 using Google+ Login (updated 11.29)
 ***ONLY BU EMAIL CAN USE GOOGLE+ OAUTH NOW***
 
+View engine changes from html to ejs. Those two are similar to each other but the latter one easily allows us to render dynamic data. Documentation can be found [here](https://ejs.co/#install).
+
 For the demo purpose, here I only implement a simple click that require you using your own google account to login/create a user for our website. Nothing fancy here, only display a message telling you that you login with your email and user information will be stored in our database. I choose mongo db because it is easy to manage and learn. Please use your weekend to learn a little bit about mongo db and its logic so that you can manage the db your own.
 
-Also, I hide keys [`/config/key.js`] for both our api and my google keys since the project is related to my own bu account. So either **acquire your own google developer id or use my schema as the following exactly**
+Also, I hide keys [`/config/key.js`] for both our api and my google keys since the project is related to my own bu account. So **acquire your own google developer id and use my schema as the following exactly**.
 ```
 module.exports = {
   openWeather : {
@@ -20,8 +22,9 @@ module.exports = {
     dbURL: <shared in the text>
   }
 }
-
 ```
+If hard to apply, use mine in the text.
+
 
 - install Passport
 
@@ -37,8 +40,34 @@ For simplicity, the `package.json` already declared all the dependencies we need
 
 As mentioned above, create a `key.js` file so that we can use api, oauth, and mongodb
 
+
+### Explaination for code
+Now the logic is user have to login in order to see the data from openWeather api.
+If user do not has the correct cookie in side of the browser, server will provide a 403 code telling it is forbidden since he does not has the permission. Here are listed the major routes I use:
+```
+GET: /                       just index page with nothing special
+GET: /search                 Allow current user to search the temp for given city
+GET: /profile                User can access its profile only if he logs in
+
+GET: /auth/google            allow user to sign in with google
+GET: /auth/logout            The current user will be logout
+GET: /auth/google/redirect   For google oauth to redirect
+
+GET: /privacy                For google use not to complain about privacy
+```
+When user successfully login to their account, he should be redirected to a profile page where he can go back to home page or logout to current account. Note that current cookie will not be deleted though.
+
+All the routers equipped with "non-user login" proof so that they cannot access the link above (except for the home address) if they are not logged in.
+
+Data schema for now just use
+```
+({
+  googleid: String,
+  username: String
+});
+```
 ------
-do ***NOT*** change the files except in app_server/views/ (update in 10.25)
+~~do ***NOT*** change the files except in app_server/views/ (update in 10.25)~~
 
 ~~ Ignore the vulnerability for now. I will fix this for next update. ~~ **fixed**
 
