@@ -8,51 +8,22 @@
   </head>
   <script>
 
-  function getWeather(cityName) {
-      var city_name;
-      var temp;
-      var pressure;
-      var wind_speed;
-      var country_name;
-      var weather_description;
-      var apiKey = "d6b790feb395d998105df9db1b50ece2";
-            jQuery.getJSON("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey, function(data) {
-
-                    city_name = data["name"];
-                    country_name = data["sys"]["country"];
-                    weather_description = data["weather"][0]["description"];
-                    temp = data["main"]["temp"];
-                    fahrenheit_temp = temp*(9/5) - 459.67;
-                    pressure = data["main"]["pressure"];
-                    wind_speed = data["wind"]["speed"];
-
-                    console.log(weather_description)
-                    document.write("Weather is " + weather_description + " and the temperture is " + fahrenheit_temp + "F");
-                    //$("#cityname").html(city_name + " &#40;" + country_name + "&#41; " + "has " + weather_description);
-                    //$(".temp").html(temp);
-                    //$(".pressure").html(pressure + " mBar");
-                    //$(".wind-spd").html(wind_speed + " m/s");
-
-      })
-
-  }  
-  function main() {
-    console.log("submit")
-    var user_input_city = document.getElementById("city").value;
-    console.log(user_input_city)
-    getWeather(user_input_city)
-
-  }
   </script>
   <body>
+    <nav>
+      <li><a href='/auth/google'> Login with google </a></li>
+      <li></li>
+    </nav>
     <div id="formContainer">
 				<p id="inputFields" >
+          <form action = '/search' method = get>
 					<span id='formTitle'>City Weather</span>
 					<br>
 					<br>
 					<input type="text" name="city_input" id="city" class="input" placeholder="city"></input>
 					<br>
-					<button type="submit" id="search" onclick="main()" data-loading-text="Loading...">Search</button>
+					<input type="submit" id="search" data-loading-text="Loading...">Search</button>
+        </form>
 				</p>
 			</div>
   </body>
