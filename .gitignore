@@ -3,3 +3,6 @@ node_modules
 
 # keys file
 config/key.js
+
+# .DS_Store
+.DS_Store
