@@ -4,6 +4,8 @@
 ### OAuth 2.0 using Google+ Login (updated 11.29)
 ***ONLY BU EMAIL CAN USE GOOGLE+ OAUTH NOW***
 
+Add branch OAuth
+
 View engine changes from html to ejs. Those two are similar to each other but the latter one easily allows us to render dynamic data. Documentation can be found [here](https://ejs.co/#install).
 
 For the demo purpose, here I only implement a simple click that require you using your own google account to login/create a user for our website. Nothing fancy here, only display a message telling you that you login with your email and user information will be stored in our database. I choose mongo db because it is easy to manage and learn. Please use your weekend to learn a little bit about mongo db and its logic so that you can manage the db your own.
