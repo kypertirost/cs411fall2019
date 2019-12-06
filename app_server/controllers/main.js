@@ -1,3 +1,8 @@
 module.exports.index = function (req, res) {
-  res.render('index', { title: 'cs411 project' });
+  // if (req.user) {
+  //   res.render();
+  // } else {
+    res.render('index');
+  // }
+
 }

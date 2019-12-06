@@ -69,7 +69,7 @@ Data schema for now just use
 ------
 ~~do ***NOT*** change the files except in app_server/views/ (update in 10.25)~~
 
-~~ Ignore the vulnerability for now. I will fix this for next update. ~~ **fixed**
+~~Ignore the vulnerability for now. I will fix this for next update.~~ **fixed**
 
 Here's the way to update the html file.
 

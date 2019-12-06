@@ -42,5 +42,4 @@ const searchCtrl = (req, res) => {
 router.get('/', searchCtrl);
 
 
-
 module.exports = router;

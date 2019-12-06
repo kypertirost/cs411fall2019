@@ -36,8 +36,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(key.mongodb.dbURL, () => {
+});
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
   console.log("connect to mongodb successfully");
-})
+});
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/search', searchRouter);

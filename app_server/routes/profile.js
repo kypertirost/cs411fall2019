@@ -10,6 +10,7 @@ const authCheckCtrl = (req, res, next) => {
     res.redirect('/auth/google');
   }
 }
+
 router.get('/', authCheckCtrl, (req, res) => {
   res.render('profile', {user : req.user});
 });
