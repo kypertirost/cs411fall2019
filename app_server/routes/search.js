@@ -31,7 +31,7 @@ const searchCtrl = (req, res) => {
        var weather_description = data.weather[0].main;
        var temp = data.main.temp;
        var fahrenheit_temp = Math.round( (temp*(9/5) - 459.67) * 10 ) / 10;
-       var result = "Weather is " + weather_description + " and the temperture is " + fahrenheit_temp + " F";
+       var result = "Weather in " + city + " is " + weather_description + " and the temperture is " + fahrenheit_temp + " F";
        that.status(200).send(result);
      }
     });

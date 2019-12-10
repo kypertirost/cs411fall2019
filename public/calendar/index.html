@@ -53,6 +53,19 @@
 	</script>
 </head>
 <body onload="init();">
+
+	<div id="formContainer">
+				<p id="inputFields" >
+          <form action = '/search' method = get>
+					     <span id='formTitle'>City Weather</span>
+					<br>
+					     <input type="text" name="city_input" id="city" class="input" placeholder="city"/>
+					<br>
+					     <input type="submit" id="search" data-loading-text="Loading..."/>
+          </form>
+				
+	</div>
+
 	<ul>
 		<li><a class="active" href="http://localhost:3000/">Home</a></li>
 		<li><a href="http://localhost:3000/auth/logout">Logout</a></li>
