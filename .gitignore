@@ -3,6 +3,7 @@ node_modules
 
 # keys file
 config/key.js
+config/credentials.json
 
 # .DS_Store
 .DS_Store
