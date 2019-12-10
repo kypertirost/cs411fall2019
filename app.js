@@ -17,8 +17,6 @@ var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
-
-
 var app = express();
 
 // view engine setup
@@ -45,7 +43,6 @@ var db = mongoskin.db(key.mongodb.olddbURL, { w: 0});
     db.bind('event');
 
 
-
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
   console.log("connect to mongodb successfully");
@@ -56,7 +53,6 @@ app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/privacy', privacyRouter);
 app.use('/profile', profileRouter);
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,6 +72,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 
 
+
 app.get('/init', function(req, res){
   db.event.insert({
          text:"My test event A",
@@ -90,6 +87,12 @@ app.get('/init', function(req, res){
      });
 
 
+    /*... skipping similar code for other test events...*/
+
+    res.send("Test events were added to the database")
+});
+
+
 app.get('/data', function(req, res){
   if (req.user) {
     db.event.find().toArray(function(err, data){
@@ -101,11 +104,7 @@ app.get('/data', function(req, res){
   		res.send(data);
   	});
   }
-
 });
-app.get('/layout', (req, res) => {
-  res.render('layout');
-})
 
 app.post('/data', function(req, res){
   var data = req.body;
