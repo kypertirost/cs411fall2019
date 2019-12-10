@@ -94,6 +94,7 @@ app.get('/init', function(req, res){
 
 
 app.get('/data', function(req, res){
+  if (req.user){
   db.event.find().toArray(function(err, data){
 		//set id property for all records
 		for (var i = 0; i < data.length; i++)
@@ -102,6 +103,7 @@ app.get('/data', function(req, res){
 		//output response
 		res.send(data);
 	});
+}
 });
 
 app.post('/data', function(req, res){
