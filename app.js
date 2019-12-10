@@ -9,6 +9,7 @@ var passport = require('passport');
 var bodyParser = require("body-parser");
 
 
+const Event = require('./models/eventSchema');
 
 const key = require('./config/key');
 var indexRouter = require('./app_server/routes/index');
@@ -16,7 +17,7 @@ var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
-
+var calendarRouter = require('./app_server/routes/calendar');
 var app = express();
 
 // view engine setup
@@ -27,7 +28,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/resource', express.static(path.join(__dirname, 'public')));
 
 app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
@@ -37,27 +38,27 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(key.mongodb.dbURL, () => {
-});
+mongoose.connect(key.mongodb.dbURL, {useNewUrlParser: true});
+
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("connect to mongodb successfully");
 });
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/privacy', privacyRouter);
 app.use('/profile', profileRouter);
+app.use('/calendar', calendarRouter);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.listen(3000);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+
+
 
 // error handler
 // app.use(function(err, req, res, next) {
@@ -70,22 +71,33 @@ app.use(function(req, res, next) {
 //   res.send(err);
 // });
 
-app.get('/script', (req,res) =>{
-  res.sendFile("./app_server/controllers/main.js")
-})
+app.get('/addEvent', (req, res) => {
+  if(!req.user) {
+    console.log("No user login");
+    res.send(403, "Forbidden");
+  }
+});
+
 
 app.get('/init', function(req, res){
-    db.event.insert({
-        text:"My test event A",
-        start_date: new Date(2019,12,8),
-        end_date:   new Date(2019,12,9)
-    });
-    db.event.insert({
-        text:"One more test event",
-        start_date: new Date(2019,12,10),
-        end_date:   new Date(2019,12,13),
-        color: "#DD8616"
-    });
+  new Event({
+    title: "My first test",
+    attendees: "1",
+    place:"Boston",
+    date:"2019,12,10"
+    // userid:req.user.id
+  }).save().then((newEvent) => {
+    console.log("new event created: " + newEvent);
+  })
+  new Event({
+    title: "My second test",
+    attendees: "1",
+    place:"Boston",
+    date:"2019,12,08"
+    // userid:req.user.id
+  }).save().then((newEvent) => {
+    console.log("new event created: " + newEvent);
+  })
 
     /*... skipping similar code for other test events...*/
 
@@ -94,19 +106,19 @@ app.get('/init', function(req, res){
 
 
 app.get('/data', function(req, res){
-    db.event.find().toArray(function(err, data){
-        //set id property for all records
-        for (var i = 0; i < data.length; i++)
-            data[i].id = data[i]._id;
-
-        //output response
-        res.send(data);
+    Event.find({},(err, data) => {
+      //set id property for all records
+      res.send(data);
     });
+
 });
+app.get('/layout', (req, res) => {
+  res.render('layout');
+})
 
 app.post('/data', function(req, res){
     var data = req.body;
-
+    console.log(data);
     //get operation type
     var mode = data["!nativeeditor_status"];
     //get id of record
@@ -140,5 +152,8 @@ app.post('/data', function(req, res){
     else
         res.send("Not supported operation");
 });
-
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 module.exports = app;
