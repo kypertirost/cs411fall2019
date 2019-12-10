@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var cookieSession = require('cookie-session');
 var passport = require('passport');
 var bodyParser = require("body-parser");
-
+var mongoskin = require('mongoskin');
 
 const Event = require('./models/eventSchema');
 
@@ -17,7 +17,6 @@ var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
-var calendarRouter = require('./app_server/routes/calendar');
 var app = express();
 
 // view engine setup
@@ -40,10 +39,12 @@ app.use(passport.session());
 
 mongoose.connect(key.mongodb.dbURL, {useNewUrlParser: true});
 
-var db = mongoose.connection;
+var db = mongoskin.db(key.mongodb.olddbURL, { w: 0});
+    db.bind('event');
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
   console.log("connect to mongodb successfully");
 });
 
@@ -52,7 +53,6 @@ app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/privacy', privacyRouter);
 app.use('/profile', profileRouter);
-app.use('/calendar', calendarRouter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,33 +71,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   res.send(err);
 // });
 
-app.get('/addEvent', (req, res) => {
-  if(!req.user) {
-    console.log("No user login");
-    res.send(403, "Forbidden");
-  }
-});
 
 
 app.get('/init', function(req, res){
-  new Event({
-    title: "My first test",
-    attendees: "1",
-    place:"Boston",
-    date:"2019,12,10"
-    // userid:req.user.id
-  }).save().then((newEvent) => {
-    console.log("new event created: " + newEvent);
-  })
-  new Event({
-    title: "My second test",
-    attendees: "1",
-    place:"Boston",
-    date:"2019,12,08"
-    // userid:req.user.id
-  }).save().then((newEvent) => {
-    console.log("new event created: " + newEvent);
-  })
+  db.event.insert({
+         text:"My test event A",
+         start_date: new Date(2018,8,1),
+         end_date:   new Date(2018,8,5)
+     });
+     db.event.insert({
+         text:"One more test event",
+         start_date: new Date(2018,8,3),
+         end_date:   new Date(2018,8,8),
+         color: "#DD8616"
+     });
+
 
     /*... skipping similar code for other test events...*/
 
@@ -106,51 +94,45 @@ app.get('/init', function(req, res){
 
 
 app.get('/data', function(req, res){
-    Event.find({},(err, data) => {
-      //set id property for all records
-      res.send(data);
-    });
+  db.event.find().toArray(function(err, data){
+		//set id property for all records
+		for (var i = 0; i < data.length; i++)
+			data[i].id = data[i]._id;
 
+		//output response
+		res.send(data);
+	});
 });
-app.get('/layout', (req, res) => {
-  res.render('layout');
-})
 
 app.post('/data', function(req, res){
-    var data = req.body;
-    console.log(data);
-    //get operation type
-    var mode = data["!nativeeditor_status"];
-    //get id of record
-    var sid = data.id;
-    var tid = sid;
+  var data = req.body;
+	var mode = data["!nativeeditor_status"];
+	var sid = data.id;
+	var tid = sid;
 
-    //remove properties which we do not want to save in DB
-    delete data.id;
-    delete data["!nativeeditor_status"];
+	delete data.id;
+	delete data.gr_id;
+	delete data["!nativeeditor_status"];
 
 
-    //output confirmation response
-    function update_response(err, result){
-        if (err)
-            mode = "error";
-        else if (mode == "inserted")
-            tid = data._id;
+	function update_response(err, result){
+		if (err)
+			mode = "error";
+		else if (mode == "inserted")
+			tid = data._id;
 
-        res.setHeader("Content-Type","application/json");
-        res.send({action: mode, sid: sid, tid: tid});
+		res.setHeader("Content-Type","application/json");
+		res.send({action: mode, sid: sid, tid: tid});
+	}
 
-    }
-
-    //run db operation
-    if (mode == "updated")
-        db.event.updateById( sid, data, update_response);
-    else if (mode == "inserted")
-        db.event.insert(data, update_response);
-    else if (mode == "deleted")
-        db.event.removeById( sid, update_response);
-    else
-        res.send("Not supported operation");
+	if (mode == "updated")
+		db.event.updateById( sid, data, update_response);
+	else if (mode == "inserted")
+		db.event.insert(data, update_response);
+	else if (mode == "deleted")
+		db.event.removeById( sid, update_response);
+	else
+		res.send("Not supported operation");
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

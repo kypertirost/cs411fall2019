@@ -12,7 +12,7 @@ const authCheckCtrl = (req, res, next) => {
 }
 
 router.get('/', authCheckCtrl, (req, res) => {
-  res.render('profile', {user : req.user});
+  res.redirect('/resource/calendar/index.html')
 });
 
 module.exports = router;
