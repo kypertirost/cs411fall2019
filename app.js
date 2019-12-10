@@ -9,12 +9,15 @@ var passport = require('passport');
 var bodyParser = require("body-parser");
 var mongoskin = require('mongoskin');
 
+const Event = require('./models/eventSchema');
+
 const key = require('./config/key');
 var indexRouter = require('./app_server/routes/index');
 var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
+
 
 var app = express();
 
@@ -98,6 +101,7 @@ app.get('/data', function(req, res){
   		res.send(data);
   	});
   }
+
 });
 app.get('/layout', (req, res) => {
   res.render('layout');
