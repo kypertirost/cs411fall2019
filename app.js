@@ -9,6 +9,10 @@ var passport = require('passport');
 var bodyParser = require("body-parser");
 var mongoskin = require('mongoskin');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 const Event = require('./models/eventSchema');
 
 const key = require('./config/key');
@@ -17,6 +21,10 @@ var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
+<<<<<<< HEAD
+=======
+var calendarRouter = require('./app_server/routes/calendar');
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 var app = express();
 
 // view engine setup
@@ -39,9 +47,13 @@ app.use(passport.session());
 
 mongoose.connect(key.mongodb.dbURL, {useNewUrlParser: true});
 
+<<<<<<< HEAD
 var db = mongoskin.db(key.mongodb.olddbURL, { w: 0});
     db.bind('event');
 
+=======
+var db = mongoose.connection;
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
@@ -53,6 +65,10 @@ app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/privacy', privacyRouter);
 app.use('/profile', profileRouter);
+<<<<<<< HEAD
+=======
+app.use('/calendar', calendarRouter);
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,6 +87,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   res.send(err);
 // });
 
+<<<<<<< HEAD
 
 
 app.get('/init', function(req, res){
@@ -86,6 +103,35 @@ app.get('/init', function(req, res){
          color: "#DD8616"
      });
 
+=======
+app.get('/addEvent', (req, res) => {
+  if(!req.user) {
+    console.log("No user login");
+    res.send(403, "Forbidden");
+  }
+});
+
+
+app.get('/init', function(req, res){
+  new Event({
+    title: "My first test",
+    attendees: "1",
+    place:"Boston",
+    date:"2019,12,10"
+    // userid:req.user.id
+  }).save().then((newEvent) => {
+    console.log("new event created: " + newEvent);
+  })
+  new Event({
+    title: "My second test",
+    attendees: "1",
+    place:"Boston",
+    date:"2019,12,08"
+    // userid:req.user.id
+  }).save().then((newEvent) => {
+    console.log("new event created: " + newEvent);
+  })
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 
     /*... skipping similar code for other test events...*/
 
@@ -94,6 +140,7 @@ app.get('/init', function(req, res){
 
 
 app.get('/data', function(req, res){
+<<<<<<< HEAD
   if (req.user){
   db.event.find().toArray(function(err, data){
 		//set id property for all records
@@ -104,9 +151,20 @@ app.get('/data', function(req, res){
 		res.send(data);
 	});
 }
+=======
+    Event.find({},(err, data) => {
+      //set id property for all records
+      res.send(data);
+    });
+
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 });
+app.get('/layout', (req, res) => {
+  res.render('layout');
+})
 
 app.post('/data', function(req, res){
+<<<<<<< HEAD
   var data = req.body;
 	var mode = data["!nativeeditor_status"];
 	var sid = data.id;
@@ -140,4 +198,45 @@ app.post('/data', function(req, res){
 app.use(function(req, res, next) {
   next(createError(404));
 });
+=======
+    var data = req.body;
+    console.log(data);
+    //get operation type
+    var mode = data["!nativeeditor_status"];
+    //get id of record
+    var sid = data.id;
+    var tid = sid;
+
+    //remove properties which we do not want to save in DB
+    delete data.id;
+    delete data["!nativeeditor_status"];
+
+
+    //output confirmation response
+    function update_response(err, result){
+        if (err)
+            mode = "error";
+        else if (mode == "inserted")
+            tid = data._id;
+
+        res.setHeader("Content-Type","application/json");
+        res.send({action: mode, sid: sid, tid: tid});
+
+    }
+
+    //run db operation
+    if (mode == "updated")
+        db.event.updateById( sid, data, update_response);
+    else if (mode == "inserted")
+        db.event.insert(data, update_response);
+    else if (mode == "deleted")
+        db.event.removeById( sid, update_response);
+    else
+        res.send("Not supported operation");
+});
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+>>>>>>> 1cf2db0ab7880418c4114fc7c763fa40927ddec9
 module.exports = app;
