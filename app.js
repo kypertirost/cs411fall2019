@@ -17,6 +17,7 @@ var authRouter = require('./app_server/routes/auth');
 var searchRouter = require('./app_server/routes/search');
 var privacyRouter = require('./app_server/routes/privacy');
 var profileRouter = require('./app_server/routes/profile');
+var calRouter = require('./app_server/routes/googlecal');
 var app = express();
 
 // view engine setup
@@ -53,6 +54,7 @@ app.use('/auth', authRouter);
 app.use('/search', searchRouter);
 app.use('/privacy', privacyRouter);
 app.use('/profile', profileRouter);
+app.use('/test', calRouter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -74,22 +76,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/init', function(req, res){
-  db.event.insert({
-         text:"My test event A",
-         start_date: new Date(2018,8,1),
-         end_date:   new Date(2018,8,5)
-     });
-     db.event.insert({
-         text:"One more test event",
-         start_date: new Date(2018,8,3),
-         end_date:   new Date(2018,8,8),
-         color: "#DD8616"
-     });
+	db.event.insert({
+		text:"My test event A",
+		start_date: new Date(2019,12,1),
+		end_date:	new Date(2019,8,5)
+	});
+	db.event.insert({
+		text:"My test event B",
+		start_date: new Date(2019,12,19),
+		end_date:	new Date(2019,12,24)
+	});
+	db.event.insert({
+		text:"Morning event",
+		start_date: new Date(2019,12,4,4,0),
+		end_date:	new Date(2019,12,4,14,0)
+	});
+	db.event.insert({
+		text:"One more test event",
+		start_date: new Date(2019,12,3),
+		end_date:	new Date(2019,12,8),
+		color: "#DD12616"
+	});
 
-
-    /*... skipping similar code for other test events...*/
-
-    res.send("Test events were added to the database")
+	res.send("Test events were added to the database")
 });
 
 
@@ -106,8 +115,9 @@ app.get('/data', function(req, res){
   }
 });
 
+
 app.post('/data', function(req, res){
-  var data = req.body;
+	var data = req.body;
 	var mode = data["!nativeeditor_status"];
 	var sid = data.id;
 	var tid = sid;
@@ -128,7 +138,7 @@ app.post('/data', function(req, res){
 	}
 
 	if (mode == "updated")
-		db.event.updateById( sid, data, update_response);
+		db.event.updateById(sid, data, update_response);
 	else if (mode == "inserted")
 		db.event.insert(data, update_response);
 	else if (mode == "deleted")
@@ -136,6 +146,7 @@ app.post('/data', function(req, res){
 	else
 		res.send("Not supported operation");
 });
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

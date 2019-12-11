@@ -39,9 +39,9 @@
 	</style>
 
 	<script>
-		function init() {
+	function init() {
 			scheduler.config.xml_date="%Y-%m-%d %H:%i";
-			scheduler.init('scheduler_here',new Date(2018,8,4),"month");
+			scheduler.init('scheduler_here',new Date(2019,12,4),"month");
 
 			scheduler.templates.xml_date = function(value){ return new Date(value); };
 			scheduler.load("/data", "json");
@@ -63,13 +63,13 @@
 					<br>
 					     <input type="submit" id="search" data-loading-text="Loading..."/>
           </form>
-				
+
 	</div>
 
 	<ul>
 		<li><a class="active" href="http://localhost:3000/">Home</a></li>
 		<li><a href="http://localhost:3000/auth/logout">Logout</a></li>
-
+		<li><a href="http://localhost:3000/test">Google Cal Event</a></li>
 
 
 	</ul>

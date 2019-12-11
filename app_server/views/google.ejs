@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      html, body{
+          margin:0px;
+          padding:0px;
+          height:100%;
+          overflow:hidden;
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover {
+        background-color: #111;
+      }
+      </style>
+  </head>
+  <body>
+    <ul>
+      <li><a class="active" href="http://localhost:3000/">Home</a></li>
+      <li><a href="http://localhost:3000/auth/logout">Logout</a></li>
+      <li><a href="http://localhost:3000/test">Google Cal Event</a></li>
+
+
+    </ul>
+    <table>
+    <% for(var i=0; i < currentEvent.length; i++) { %>
+       <tr>
+         <td><%= currentEvent[i].start.dateTime || currentEvent[i].start.date %></td>
+         <td><%= currentEvent[i].summary %></td>
+       </tr>
+    <% } %>
+    </table>
+
+  </body>
+</html>
