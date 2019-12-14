@@ -45,7 +45,7 @@ As mentioned above, create a `key.js` file so that we can use api, oauth, and mo
 Now the logic is user have to login in order to see the data from openWeather api.
 If user do not has the correct cookie in side of the browser, server will provide a 403 code telling it is forbidden since he does not has the permission. Here are listed the major routes I use:
 ```
-GET: /                       just index page with nothing special
+GET: /                       Login screen, will jump to calender page if logged in
 GET: /search                 Allow current user to search the temp for given city
 GET: /profile                User can access its profile only if he logs in
 
@@ -55,15 +55,35 @@ GET: /auth/google/redirect   For google oauth to redirect
 
 GET: /privacy                For google use not to complain about privacy
 ```
-When user successfully login to their account, he should be redirected to a profile page where he can go back to home page or logout to current account. Note that current cookie will not be deleted though.
+When user successfully login to their account, he should be redirected to the calender page. Note that current cookie will not be deleted though.
 
 All the routers equipped with "non-user login" proof so that they cannot access the link above (except for the home address) if they are not logged in.
 
 Data schema for now just use
 ```
-({
+const userSchema = new Schema({
   googleid: String,
   username: String
+});
+  title: {
+      type: String,
+      required: true
+  },
+  attendees: {
+      type: String,
+      required: true
+  },
+  place: {
+      type: String,
+      required: true
+  },
+  date: {
+      type: String,
+      required: true
+  },
+  userid: {
+      type: String
+  }
 });
 ```
 ------
@@ -92,10 +112,7 @@ You have to make sure your npm is correctly installed when your dependencies are
 Please mark what dependencies you add in each commit so that the server side can correctly respond to the changes.
 `npm install` will help you install whatever you want to use for the app
 
-- start the server
+- start the server by running 'nodemon'
 
 `nodemon` is installed in the dependencies. So you don't need to rerun the server to see the changes, but simply refresh the page is enough. For now there should be only a sample page to view. If there's an error, it will displayed directly. Server will ***NOT*** accept any request of POST, DELETE. But simply a GET message.
 
-- edit index.html.
-
-This is the temp solution for now. We will use front-end frameworks later.
