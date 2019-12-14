@@ -4,9 +4,9 @@
 ### OAuth 2.0 using Google+ Login (updated 11.29)
 ***ONLY BU EMAIL CAN USE GOOGLE+ OAUTH NOW***
 
-View engine changes from html to ejs. Those two are similar to each other but the latter one easily allows us to render dynamic data. Documentation can be found [here](https://ejs.co/#install).
+View engine changes from html to ejs. Those two are similar to each other but the latter one easily allows us to render dynamic data. Documentation can be found [here](https://ejs.co/#install). But the main calendar page is using html.
 
-For the demo purpose, here I only implement a simple click that require you using your own google account to login/create a user for our website. Nothing fancy here, only display a message telling you that you login with your email and user information will be stored in our database. I choose mongo db because it is easy to manage and learn. Please use your weekend to learn a little bit about mongo db and its logic so that you can manage the db your own.
+When you login with your email and user information will be stored in our database. I choose mongo db because it is easy to manage and learn. Please use your weekend to learn a little bit about mongo db and its logic so that you can manage the db your own.
 
 Also, I hide keys [`/config/key.js`] for both our api and my google keys since the project is related to my own bu account. So **acquire your own google developer id and use my schema as the following exactly**.
 ```
@@ -38,7 +38,7 @@ For simplicity, the `package.json` already declared all the dependencies we need
 
 - create `key.js`
 
-As mentioned above, create a `key.js` file so that we can use api, oauth, and mongodb
+As mentioned above, create a `key.js` file so that we can use weather API, oauth, and mongodb
 
 
 ### Explaination for code
