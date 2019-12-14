@@ -61,10 +61,13 @@ All the routers equipped with "non-user login" proof so that they cannot access 
 
 Data schema for now just use
 ```
+user_schema.js
 const userSchema = new Schema({
   googleid: String,
   username: String
 });
+eventSchema.js
+const eventSchema = new Schema({
   title: {
       type: String,
       required: true
