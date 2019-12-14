@@ -6,3 +6,6 @@ Our team works in separate for the app. Front-end part and back-end part. In thi
 5. We love node as a development tool. It is easy to learn and extend the functionality.
 
 We don’t really want to use php or jsp because we want our app starts simple and do the right things. Node naturally provides so much dependency that others doesn’t. This is the main reason that we don’t want to use other tools.
+
+END RESULT:  
+Node.js + Express for backend and JavaScript for front end. Because we didn't have anyone that did frontend so the Calender code was written using JavaScript.
