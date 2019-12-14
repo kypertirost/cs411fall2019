@@ -1,8 +1,8 @@
 Login:
   * Login page
-  * Input username/email and password, or use oauth for ???
+  * Use oauth
   * Invalid info: refresh page and prompt reset password
-  * Valid info: user logs in and is sent to main calendar page
+  * Valid info: user logs in, save user to database and sent user to main calendar page
   
 Register:
   * Login page
