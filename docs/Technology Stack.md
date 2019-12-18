@@ -9,3 +9,6 @@ Flutter is an open-source UI software development kit created by Google. It is u
 Express is a web application framework and is a industry standard for Node.js (JavaScript runtime environment). So it would be easier for us to find guides on it. It should also have good support for MongoDB which is our chosen database suggested by the professor.  
 MongoDB is suggested by the professor in lecture. It should be easier to learn than SQL which requires its own entire class to learn. MongoDB's storage is also similar to JSON which would be similar to the other compoents that we are trying to use for this project. It is also easier to work on MongoDB collectively which is important for this project.  
 Github is of course the industry standard that everyone uses. And we are already putting everything else on git as a requirement for homework submission so why not just stick with it.  
+
+END RESULT:  
+Node.js+Express+Mongoose(MongoDB). Because we ran of out time and manpower, and what we had at the time was build upon this stack.
